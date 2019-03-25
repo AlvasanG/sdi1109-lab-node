@@ -4,6 +4,13 @@ var app = express();
 app.use(express.static('public'));
 
 var expressSession = require('express-session');
+app.use(expressSession({
+    secret: 'abcdefg',
+    resave: true,
+    saveUninitialized: true
+}));
+
+var expressSession = require('express-session');
 // routerUsuarioSession
 var routerUsuarioSession = express.Router();
 routerUsuarioSession.use(function(req, res, next) {
@@ -51,13 +58,6 @@ var fileUpload = require('express-fileupload');
 app.use(fileUpload());
 
 var crypto = require('crypto');
-
-var expressSession = require('express-session');
-app.use(expressSession({
-    secret: 'abcdefg',
-    resave: true,
-    saveUninitialized: true
-}));
 
 var gestorBD = require("./modules/gestorBD.js");
 gestorBD.init(app,mongo);

@@ -15,7 +15,16 @@ module.exports = function(app, swig, gestorBD) {
             email : req.body.email,
             password : seguro
         }
-    })
+
+        gestorBD.insertarUsuario(usuario, function(id) {
+            if (id == null){
+                res.send("Error al insertar ");
+            } else {
+                res.send('Usuario Insertado ' + id);
+            }
+        });
+    });
+
     app.get("/identificarse", function(req, res) {
         var respuesta = swig.renderFile('views/bidentificacion.html', {});
         res.send(respuesta);
