@@ -8,14 +8,14 @@ module.exports = function(app, swig, gestorBD) {
         res.send(respuesta);
     });
 
-    gestorBD.insertarUsuario(usuario, function(id) {
-        if (id == null){
-            res.send("Error al insertar ");
-        } else {
-            res.send('Usuario Insertado ' + id);
+    app.post('/usuario', function(req, res) {
+        var seguro = app.get("crypto").createHmac('sha256', app.get('clave'))
+            .update(req.body.password).digest('hex');
+        var usuario = {
+            email : req.body.email,
+            password : seguro
         }
-    });
-
+    })
     app.get("/identificarse", function(req, res) {
         var respuesta = swig.renderFile('views/bidentificacion.html', {});
         res.send(respuesta);
