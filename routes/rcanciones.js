@@ -24,11 +24,6 @@ module.exports = function(app, swig, gestorBD) {
         res.send(respuesta);
     });
 
-    app.get('/suma', function(req, res) {
-        var respuesta = parseInt(req.query.num1) + parseInt(req.query.num2);
-        res.send(String(respuesta));
-    });
-
     app.get('/cancion/:id', function (req, res) {
         var criterio = { "_id" : gestorBD.mongo.ObjectID(req.params.id) };
         gestorBD.obtenerCanciones(criterio,function(canciones){
@@ -43,6 +38,7 @@ module.exports = function(app, swig, gestorBD) {
             }
         });
     })
+
     app.get('/canciones/:genero/:id', function(req, res) {
         var respuesta = 'id: ' + req.params.id + '<br>'
             + 'Genero: ' + req.params.genero;
@@ -66,7 +62,7 @@ module.exports = function(app, swig, gestorBD) {
                         if (err) {
                             res.send("Error al subir la portada");
                         } else {
-                            res.send("Agregada id: " + id);
+                            res.redirect("/publicaciones");
                         }
                     });
                 }
@@ -125,7 +121,7 @@ module.exports = function(app, swig, gestorBD) {
                     if( result == null){
                         res.send("Error en la modificación");
                     } else {
-                        res.send("Modificado");
+                        res.redirect("/publicaciones");
                     }
                 });
             }
