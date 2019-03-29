@@ -3,6 +3,9 @@ var express = require('express');
 var app = express();
 app.use(express.static('public'));
 
+var fs = require('fs');
+var https = require('https');
+
 var expressSession = require('express-session');
 app.use(expressSession({
     secret: 'abcdefg',
@@ -111,7 +114,18 @@ app.get('/', function (req, res) {
     res.redirect('/tienda');
 })
 
+app.use( function (err, req, res, next ) {
+    console.log("Error producido: " + err); //we log the error in our db
+    if (! res.headersSent) {
+        res.status(400);
+        res.send("Recurso no disponible");
+    }
+});
+
 // lanzar el servidor
-app.listen(app.get('port'), function() {
+https.createServer({
+    key: fs.readFileSync('certificates/alice.key'),
+    cert: fs.readFileSync('certificates/alice.crt')
+}, app).listen(app.get('port'), function() {
     console.log("Servidor activo");
 });
