@@ -1,0 +1,6 @@
+#IDEA#
+.idea
+
+/node_modules/
+/public/portadas/
+/public/audios/
