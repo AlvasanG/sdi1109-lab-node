@@ -99,6 +99,8 @@ var crypto = require('crypto');
 var gestorBD = require("./modules/gestorBD.js");
 gestorBD.init(app,mongo);
 
+var userValidator = require("./validators/userValidator.js");
+
 // Variables
 app.set('port', 8081);
 app.set('db', 'mongodb://admin:sdi@sdi-node-shard-00-00-afcp7.mongodb.net:27017,sdi-node-shard-00-01-afcp7.mongodb.net:27017,sdi-node-shard-00-02-afcp7.mongodb.net:27017/test?ssl=true&replicaSet=SDI-NODE-shard-0&authSource=admin&retryWrites=true');
@@ -107,7 +109,7 @@ app.set('crypto',crypto);
 
 
 //Rutas/controladores por lógica
-require("./routes/rusuarios.js")(app, swig, gestorBD); // (app, param1, param2, etc.)
+require("./routes/rusuarios.js")(app, swig, gestorBD, userValidator); // (app, param1, param2, etc.)
 require("./routes/rcanciones.js")(app, swig, gestorBD); // (app, param1, param2, etc.)
 
 app.get('/', function (req, res) {

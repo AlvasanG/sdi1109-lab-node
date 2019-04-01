@@ -1,4 +1,4 @@
-module.exports = function(app, swig, gestorBD) {
+module.exports = function(app, swig, gestorBD, validator) {
     app.get("/usuarios", function(req, res) {
         res.send("ver usuarios");
     });
@@ -15,6 +15,8 @@ module.exports = function(app, swig, gestorBD) {
             email : req.body.email,
             password : seguro
         }
+
+        validator.registerUser();
 
         gestorBD.insertarUsuario(usuario, function(id) {
             if (id == null){
